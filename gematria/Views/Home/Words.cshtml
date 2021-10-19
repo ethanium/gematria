@@ -1,0 +1,20 @@
+﻿@model List<BookNumber>
+@{
+    ViewData["Title"] = "Words";
+}
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-condensed table-hover table-responsive table-striped">
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Number</td>
+                        <td>@item.Book</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

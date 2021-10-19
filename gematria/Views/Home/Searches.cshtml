@@ -1,0 +1,21 @@
+﻿@model List<Phrase>
+@{
+    ViewData["Title"] = "Searches";
+}
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-condensed table-hover table-responsive table-striped">
+            <tbody>
+                @foreach (Phrase item in Model)
+                {
+                    <tr>
+                        <td>@item.Type</td>
+                        <td>@item.Text</td>
+                        <td>@item.Value</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

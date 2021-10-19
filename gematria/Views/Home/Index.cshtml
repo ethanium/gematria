@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Home";
+
+    int start = 1;
+    if (!string.IsNullOrWhiteSpace($"{Context.Request.Query["start"]}"))
+    {
+        int.TryParse($"{Context.Request.Query["start"]}", out start);
+    }
+
+    int step = 1;
+    if (!string.IsNullOrWhiteSpace($"{Context.Request.Query["step"]}"))
+    {
+        int.TryParse($"{Context.Request.Query["step"]}", out step);
+    }
+}
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <form>
+            @if (ViewBag.Languages != null)
+            {
+                List<SelectListItem> Languages = ViewBag.Languages as List<SelectListItem>;
+                <ul class="nav nav-tabs">
+                    @foreach (var item in Languages)
+                    {
+                        if (item.Selected)
+                        {
+                            <li class="active"><a href="?lang=@item.Value">@item.Text</a><input type="hidden" name="lang" value="@item.Value" /></li>
+                        }
+                        else
+                        {
+                            <li><a href="?lang=@item.Value">@item.Text</a></li>
+                        }
+                    }
+                </ul>
+            }
+            @if (ViewBag.Result != null)
+            {
+                <div class="well well-lg alert">
+                    <strong>@ViewBag.Result</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                </div>
+            }
+            <div class="input-group">
+                <input type="text" class="form-control input-lg" name="q" value="@Context.Request.Query["q"].ToString().ToUpper()" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default btn-lg" type="submit">=</button>
+                </span>
+            </div>
+            <hr /> 
+            <div class="form-inline">
+                <div class="form-group form-group-sm">
+                    <label class="control-label">Start</label>
+                    <input type="number" class="form-control" name="start" value="@start" />
+                </div>
+                <div class="form-group form-group-sm">
+                    <label class="control-label">Step</label>
+                    <input type="number" class="form-control" name="step" value="@step" />
+                </div>  
+            </div>
+            <ul class="pagination">
+                @if (ViewBag.Letters != null && ViewBag.Values != null)
+                {
+                    string _letters = ViewBag.Letters;
+                    List<int> _values = ViewBag.Values;
+
+                    for (int i = 0; i < _letters.Count(); i++)
+                    {
+                        <li>
+                            <a href="#">
+                                <span>@_letters[i]</span>
+                                <sup>@_values[i]</sup>
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(function () {
+            $("ul.pagination li a").on("click", function () {
+                let text = $("input[name=q]").attr("value");
+                text += $(this).children("span:first").text();
+                $("input[name=q]").attr("value", text);
+            }); 
+        });
+    </script>
+}

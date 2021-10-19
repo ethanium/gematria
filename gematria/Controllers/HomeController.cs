@@ -1,12 +1,10 @@
 ﻿using gematria.Models;
 using gematria.Services;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using OfficeOpenXml;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -17,13 +15,13 @@ namespace gematria.Controllers
         private readonly TextService _textService;
         private readonly LanguageService _langService;
         private readonly GematriaService _gematriaService;
-        private readonly IHostingEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
 
         string _path;
         string _letters = null;
         List<int> _values = new List<int>();
 
-        public HomeController(TextService textService, LanguageService langService, GematriaService gematriaService, IHostingEnvironment environment)
+        public HomeController(TextService textService, LanguageService langService, GematriaService gematriaService, IWebHostEnvironment environment)
         {
             _textService = textService;
             _langService = langService;
@@ -44,8 +42,6 @@ namespace gematria.Controllers
 
             List<SelectListItem> languages = new List<SelectListItem>();
             languages.Add(new SelectListItem("English", "en"));
-            languages.Add(new SelectListItem("Hebrew", "he"));
-            languages.Add(new SelectListItem("Greek", "el"));
             SelectListItem language = languages.FirstOrDefault(x => x.Value == lang);
             if (language != null)
             {
